@@ -1,21 +1,8 @@
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { authOptions } from "./api/auth/[...nextauth]/options";
-import { getTodos } from "@/lib/TodoOperations";
+import { getTodos, toggleCompleted } from "@/lib/TodoOperations";
 import TodoItem from "@/components/TodoItem";
-import { prisma } from "@/lib/database";
-
-const toggleCompleted = async (id: string, completed: boolean) => {
-  "use server";
-  await prisma.todo.update({
-    where: {
-      id: id,
-    },
-    data: {
-      completed: completed,
-    },
-  });
-};
 
 const HomePage = async () => {
   const session = await getServerSession(authOptions);

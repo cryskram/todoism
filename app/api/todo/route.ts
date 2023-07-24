@@ -10,7 +10,7 @@ export async function GET(req: Request) {
   return NextResponse.json(res);
 }
 
-export async function POST(req: Response) {
+export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   const formData = await req.formData();
   const todo_name = formData.get("title")?.toString() as string;

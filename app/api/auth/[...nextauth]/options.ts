@@ -7,7 +7,10 @@ import GoogleProvider from "next-auth/providers/google";
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
-  debug: true,
+  session: {
+    maxAge: 30 * 60,
+  },
+  debug: process.env.NODE_ENV === "development" ? true : false,
   pages: {
     signIn: "/auth/login",
   },
