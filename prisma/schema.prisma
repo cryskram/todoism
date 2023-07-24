@@ -13,7 +13,7 @@ datasource db {
 
 model Todo {
   id               String   @id @default(cuid())
-  todo_name        String   @unique
+  todo_name        String
   todo_description String?
   completed        Boolean? @default(false)
   createdAt        DateTime @default(now())

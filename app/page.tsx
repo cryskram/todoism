@@ -1,9 +1,21 @@
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { authOptions } from "./api/auth/[...nextauth]/options";
-import { getTodos, toggleCompleted } from "@/lib/TodoOperations";
+import { getTodos } from "@/lib/TodoOperations";
 import TodoItem from "@/components/TodoItem";
-import { Todo } from "@prisma/client";
+import { prisma } from "@/lib/database";
+
+const toggleCompleted = async (id: string, completed: boolean) => {
+  "use server";
+  await prisma.todo.update({
+    where: {
+      id: id,
+    },
+    data: {
+      completed: completed,
+    },
+  });
+};
 
 const HomePage = async () => {
   const session = await getServerSession(authOptions);
@@ -34,7 +46,13 @@ const HomePage = async () => {
                 </Link>
               </div>
             ) : (
-              <div className="">
+              <div className="w-full flex flex-col gap-2">
+                <Link
+                  href="/new"
+                  className="text-xl mb-4 w-full text-center font-semibold underline underline-offset-2"
+                >
+                  Add More
+                </Link>
                 {todos.map((todo) => (
                   <TodoItem
                     key={todo.id}

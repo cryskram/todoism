@@ -1,5 +1,6 @@
 "use client";
-
+import { prisma } from "@/lib/database";
+import axios from "axios";
 import { MdDelete } from "react-icons/md";
 
 type TodoItemProp = {
@@ -18,7 +19,7 @@ const TodoItem = ({
   toggleCompleted,
 }: TodoItemProp) => {
   return (
-    <div className="flex items-center text-slate-100 justify-between my-3 p-2 px-4 rounded-2xl bg-slate-800">
+    <div className="flex items-center text-slate-100 justify-between p-2 px-4 rounded-2xl bg-slate-800">
       <div>
         <h1
           className={`text-2xl font-semibold ${
@@ -27,7 +28,11 @@ const TodoItem = ({
         >
           {title}
         </h1>
-        <p className="text-slate-400">{description}</p>
+        <p className="text-slate-400">
+          {description.length > 30
+            ? description.substring(0, 30).concat("...")
+            : description}
+        </p>
       </div>
       <div className="flex gap-3">
         <button className="p-2 font-semibold rounded-xl hover:text-slate-900 hover:bg-slate-200">
@@ -41,7 +46,13 @@ const TodoItem = ({
           defaultChecked={completed}
           onChange={(e) => toggleCompleted(id, e.target.checked)}
         />
-        <button>
+        <button
+          onClick={async (e: any) => {
+            e.preventDefault();
+            await axios.delete(`/api/todo/${id}`);
+            window.location.reload();
+          }}
+        >
           <MdDelete className="bg-red-400 hover:bg-red-600 p-1 text-3xl rounded-xl" />
         </button>
       </div>
