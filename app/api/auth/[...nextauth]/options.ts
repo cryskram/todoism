@@ -8,7 +8,8 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    maxAge: 30 * 60,
+    maxAge: 24 * 60 * 60,
+    strategy: "jwt",
   },
   debug: process.env.NODE_ENV === "development" ? true : false,
   pages: {
@@ -22,6 +23,13 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          prompt: "consent",
+          response_type: "code",
+          access_type: "offline",
+        },
+      },
     }),
   ],
 };

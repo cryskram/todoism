@@ -2,9 +2,6 @@ import { prisma } from "@/lib/database";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/options";
-import { URL } from "url";
-import { redirect } from "next/navigation";
-
 export async function GET(req: Request) {
   const res = await prisma.todo.findMany();
   return NextResponse.json(res);
