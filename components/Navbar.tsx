@@ -38,7 +38,9 @@ const Navbar = async () => {
             />
           </div>
         )}
-        <FaGithub className="hover:bg-slate-200 duration-200 hover:text-slate-900 p-1 text-3xl rounded-full" />
+        <Link href="https://github.com/cryskram/todoism">
+          <FaGithub className="hover:bg-slate-200 duration-200 hover:text-slate-900 p-1 text-3xl rounded-full" />
+        </Link>
       </div>
     </div>
   );
